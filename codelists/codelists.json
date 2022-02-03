@@ -1,3 +1,28 @@
 {
-  "files": {}
+  "files": {
+    "opensafely-systolic-blood-pressure-qof.csv": {
+      "id": "opensafely/systolic-blood-pressure-qof/3572b5fb",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/systolic-blood-pressure-qof/3572b5fb/",
+      "downloaded_at": "2022-02-03 16:37:56.343325Z",
+      "sha": "f2bc461e351499f4e5573a6f94e760b99979491e"
+    },
+    "user-rob_w-ambulatory_systolic_bp_qof.csv": {
+      "id": "user/rob_w/ambulatory_systolic_bp_qof/223ac55c",
+      "url": "https://codelists.opensafely.org/codelist/user/rob_w/ambulatory_systolic_bp_qof/223ac55c/",
+      "downloaded_at": "2022-02-03 16:37:56.574302Z",
+      "sha": "559a275cb4407eab95b6f49c10b031543305bacd"
+    },
+    "user-rob_w-ambulatory_systolic_bp_narrow.csv": {
+      "id": "user/rob_w/ambulatory_systolic_bp_narrow/701bdef1",
+      "url": "https://codelists.opensafely.org/codelist/user/rob_w/ambulatory_systolic_bp_narrow/701bdef1/",
+      "downloaded_at": "2022-02-03 17:34:08.078858Z",
+      "sha": "b0debb51010fc7409106257bebac3c5658e0bd83"
+    },
+    "opensafely-hypertension-snomed.csv": {
+      "id": "opensafely/hypertension-snomed/024ab1b0",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/hypertension-snomed/024ab1b0/",
+      "downloaded_at": "2022-02-03 17:07:48.986495Z",
+      "sha": "5d5471bb6a8a01e362b191b3eb8e80c2febeb1da"
+    }
+  }
 }
