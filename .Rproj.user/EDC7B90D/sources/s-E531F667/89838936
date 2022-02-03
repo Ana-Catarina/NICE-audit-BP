@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1643886678436.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "89838936",
+    "lastKnownWriteTime" : 1643886698,
+    "last_content_update" : 1643886698190,
+    "path" : "~/Documents/GitHub/hello-world/project.yaml",
+    "project_path" : "project.yaml",
+    "properties" : {
+        "cursorPosition" : "20,38",
+        "scrollLine" : "1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "yaml"
+}
