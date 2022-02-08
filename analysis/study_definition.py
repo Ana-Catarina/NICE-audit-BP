@@ -32,6 +32,16 @@ study = StudyDefinition(
         },
     ),
     
+    msoa_geography = patients.registered_practice_as_of("2021-03-31",
+                                                        returning = "msoa",
+                                                        return_expectations = {"category": {"ratios": {"E01545789": 0.3, "E15847895": 0.4, "E18523465": 0.3}}, "incidence": 0.95}),
+                                                        
+    stp_geography = patients.registered_practice_as_of("2021-03-31",
+                                                        returning = "stp_code",
+                                                        return_expectations = {"category": {"ratios": {"QK1": 0.3, "QUY": 0.4, "E18523465": 0.3}}, "incidence": 0.95}),
+                                            
+                                                        
+    
     last_systolic_bp_measure = patients.with_these_clinical_events(all_systolic_codes,
                                                                     between = ["2020-04-01", "2021-03-31"],
                                                                     returning = "numeric_value",

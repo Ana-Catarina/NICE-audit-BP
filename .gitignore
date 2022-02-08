@@ -8,3 +8,6 @@ metadata/*
 venv/
 .DS_Store
 .Rproj.user
+.Rhistory
+.Rproj.user/shared/notebooks/paths
+.Rproj.user/shared/notebooks/paths
