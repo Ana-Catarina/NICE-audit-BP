@@ -32,6 +32,44 @@ study = StudyDefinition(
         },
     ),
     
+    sex = patients.sex(
+        return_expectations = {
+            "rate": "universal",
+            "category": {"ratios": {"M": 0.49, "F": 0.51}}
+            }
+    ),
+    
+    CKD_code = patients.with_these_clinical_events(CKD_codes,
+                                                   on_or_before = "2021-03-31",
+                                                   returning = "binary_flag",
+                                                   return_expectations = {"incidence": 0.1}
+                                                   ),
+    
+    CVD_code = patients.with_these_clinical_events(CVD_codes,
+                                                   on_or_before = "2021-03-31",
+                                                   returning = "binary_flag",
+                                                   return_expectations = {"incidence": 0.2}
+                                                   ),
+                                                   
+    T1D_code = patients.with_these_clinical_events(T1D_codes,
+                                                   on_or_before = "2021-03-31",
+                                                   returning = "binary_flag",
+                                                   return_expectations = {"incidence": 0.1}
+                                                   ),
+                                                   
+    T2D_code = patients.with_these_clinical_events(T2D_codes,
+                                                   on_or_before = "2021-03-31",
+                                                   returning = "binary_flag",
+                                                   return_expectations = {"incidence": 0.2}
+                                                   ),
+                                                   
+    Overall_diab_code = patients.with_these_clinical_events(Overall_diab_codes,
+                                                   on_or_before = "2021-03-31",
+                                                   returning = "binary_flag",
+                                                   return_expectations = {"incidence": 0.2}
+                                                   ),                                               
+    
+    
     msoa_geography = patients.registered_practice_as_of("2021-03-31",
                                                         returning = "msoa",
                                                         return_expectations = {"category": {"ratios": {"E01545789": 0.3, "E15847895": 0.4, "E18523465": 0.3}}, "incidence": 0.95}),
