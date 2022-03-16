@@ -17,3 +17,29 @@ actions:
     outputs:
       moderately_sensitive:
         report: output/markdown_report.html
+        
+  generate_report:
+    run: cohort-report:v3.0.0 output/input.csv
+    needs: [generate_study_population]
+    config:
+      variable_types:
+          last_systolic_bp_date: date
+          last_ambulatory_systolic_bp_date: date
+          last_ambulatory_systolic_bp_date_narrow: date
+          age: float
+          sex: categorical
+          CKD_code: binary
+          CVD_code: binary
+          T1D_code: binary
+          T2D_code: binary
+          Overall_diab_code: binary
+          msoa_geography: categorical
+          stp_geography: categorical
+          last_systolic_bp_measure: float
+          last_ambulatory_systolic_bp_measure: float
+          last_ambulatory_systolic_bp_measure_narrow: float
+      output_path: output/cohort_reports_outputs
+    outputs:
+      moderately_sensitive:
+        reports: output/cohort_reports_outputs/descriptives_input.html
+        reports_charts: output/cohort_reports_outputs/*.png

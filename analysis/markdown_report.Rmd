@@ -53,21 +53,6 @@ data <- df_input %>%
 
 ## Under age 80
 
-### Descriptive Stats - SBP, Ambulatory SBC
-
-Summary stats under 80 BP readings. Includes last systolic blood pressure (SBP), ambulatory sbp (narrow definition), and ambulatory sbp (wide definition)
-
-```{r under80summary}
-
-data %>% 
-  filter(age < 80) %>% 
-  select(last_systolic_bp_measure,
-         last_ambulatory_systolic_bp_measure,
-         last_ambulatory_systolic_bp_measure_narrow) %>% 
-  Hmisc::describe()
-
-```
-
 ### Proportion of data with last ambulatory systolic bp measurement above 140
 
 #### Broad coding definition
@@ -294,19 +279,6 @@ data %>%
 ```
 
 ## 80 and above
-
-### Descriptive Stats - SBP, Ambulatory SBC
-
-Summary stats 80 and over. Includes Last systolic blood pressure (SBP), ambulatory sbp (narrow definition), and ambulatory sbp (wide definition)
-
-```{r baseover80}
-
-data %>% 
-  filter(age >= 80) %>% 
-  select(last_systolic_bp_measure, last_ambulatory_systolic_bp_measure, last_ambulatory_systolic_bp_measure_narrow) %>% 
-  Hmisc::describe()
-
-```
 
 ### SBP between 150 and 145 
 
