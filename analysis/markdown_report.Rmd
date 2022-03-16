@@ -1,0 +1,491 @@
+---
+title: "Hypertension Results"
+author: "Rob Willans"
+date: "15/03/2022"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#Read in data
+
+library(tidyverse)
+library(janitor)
+
+#Function to create factor threshold
+#1 used as cutoff for missing values
+
+create_threshold <- function(df, variable_name, new_variable_name, threshold){
+  
+  df %>% mutate("{{new_variable_name}}" := case_when({{ variable_name }} > threshold ~ paste0("over_", {{threshold}}),
+                                              {{ variable_name }} > 1 ~ paste0("under_", {{threshold}}),
+                                              TRUE ~ paste0("not_recorded")))
+}
+
+df_input <- read_csv(
+  here::here("output", "input.csv"),
+  col_types = cols(patient_id = col_integer(),
+                  age = col_double(),
+                  last_systolic_bp_date = col_date(format = "%Y-%m-%d"),
+                  last_ambulatory_systolic_bp_date = col_date(format = "%Y-%m-%d"),
+                  last_ambulatory_systolic_bp_date_narrow = col_date(format = "%Y-%m-%d")
+                  )
+)
+
+# Add flag for under 80
+data <- df_input %>%
+  create_threshold(age, age_cutoff, 80) %>% 
+  create_threshold(last_ambulatory_systolic_bp_measure, last_amb_bp_cutoff_140_broad, 140) %>% 
+  create_threshold(last_ambulatory_systolic_bp_measure_narrow, last_amb_bp_cutoff_140_narrow, 140) %>% 
+  create_threshold(last_ambulatory_systolic_bp_measure, last_amb_bp_cutoff_135_broad, 135) %>% 
+  create_threshold(last_ambulatory_systolic_bp_measure_narrow, last_amb_bp_cutoff_135_narrow, 135) %>% 
+  create_threshold(last_ambulatory_systolic_bp_measure, last_amb_bp_cutoff_145_broad, 145) %>% 
+  create_threshold(last_ambulatory_systolic_bp_measure_narrow, last_amb_bp_cutoff_145_narrow, 145) %>% 
+  create_threshold(last_ambulatory_systolic_bp_measure, last_amb_bp_cutoff_150_broad, 150) %>% 
+  create_threshold(last_ambulatory_systolic_bp_measure_narrow, last_amb_bp_cutoff_150_narrow, 150)
+  
+  
+```
+
+## Under age 80
+
+### Descriptive Stats - SBP, Ambulatory SBC
+
+Summary stats under 80 BP readings. Includes last systolic blood pressure (SBP), ambulatory sbp (narrow definition), and ambulatory sbp (wide definition)
+
+```{r under80summary}
+
+data %>% 
+  filter(age < 80) %>% 
+  select(last_systolic_bp_measure,
+         last_ambulatory_systolic_bp_measure,
+         last_ambulatory_systolic_bp_measure_narrow) %>% 
+  Hmisc::describe()
+
+```
+
+### Proportion of data with last ambulatory systolic bp measurement above 140
+
+#### Broad coding definition
+
+```{r freqtabsforbps140broad}
+
+data %>% 
+  filter(age < 80) %>% 
+  tabyl(last_amb_bp_cutoff_140_broad)
+
+```
+
+#### Narrow coding definition
+
+```{r freqtabsforbps140narrow}
+
+data %>% 
+  filter(age < 80) %>% 
+  tabyl(last_amb_bp_cutoff_140_narrow)
+
+```
+
+### Proportion of data with last ambulatory systolic bp measurement above 135
+
+#### Broad coding definition
+
+```{r freqtabsforbps135broad}
+
+data %>% 
+  filter(age < 80) %>% 
+  tabyl(last_amb_bp_cutoff_135_broad)
+
+```
+
+#### Narrow coding definition
+
+```{r freqtabsforbps135narrow}
+
+data %>% 
+  filter(age < 80) %>% 
+  tabyl(last_amb_bp_cutoff_135_narrow)
+
+```
+
+### Frequency Table - narrow bp coding, 140 and 135 thresholds
+
+#### Broad coding defintition
+
+```{r freqtabsforbpsbroad135and140}
+
+data %>% 
+  filter(age < 80) %>% 
+  tabyl(last_amb_bp_cutoff_135_broad, last_amb_bp_cutoff_140_broad)
+
+data %>% 
+  filter(age < 80) %>% 
+  group_by(last_amb_bp_cutoff_135_broad, last_amb_bp_cutoff_140_broad) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+#### Narrow coding defintion
+
+```{r freqtabsforbpsnarrow135and140}
+
+data %>% 
+  filter(age < 80) %>% 
+  tabyl(last_amb_bp_cutoff_135_narrow, last_amb_bp_cutoff_140_narrow)
+
+data %>% 
+  filter(age < 80) %>% 
+  group_by(last_amb_bp_cutoff_135_narrow, last_amb_bp_cutoff_140_narrow) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+### Stratified by CVD, CKD, and DM - last ambulatory sbp over 140
+
+Broad coding definition only
+
+#### CKD
+
+0 - No CKD diag code
+1 - CKD diag code
+
+```{r bp140broadvsCKD}
+
+data %>% 
+  filter(age < 80) %>% 
+  tabyl(last_amb_bp_cutoff_140_broad, CKD_code)
+
+data %>% 
+  filter(age < 80) %>% 
+  group_by(last_amb_bp_cutoff_140_broad, CKD_code) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+#### CVD
+
+0 - No CVD diag code
+1 - CvD diag code
+
+```{r bp140broadvsCVD}
+
+data %>% 
+  filter(age < 80) %>% 
+  tabyl(last_amb_bp_cutoff_140_broad, CVD_code)
+
+data %>% 
+  filter(age < 80) %>% 
+  group_by(last_amb_bp_cutoff_140_broad, CVD_code) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+#### T1D
+
+0 - No T1D diag code
+1 - T1D diag code
+
+
+```{r bp140broadvsT1D}
+
+data %>% 
+  filter(age < 80) %>% 
+  tabyl(last_amb_bp_cutoff_140_broad, T1D_code)
+
+data %>% 
+  filter(age < 80) %>% 
+  group_by(last_amb_bp_cutoff_140_broad, T1D_code) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+#### T2D
+
+0 - No T2D diag code
+1 - T2D diag code
+
+```{r bp140broadvsT2D}
+
+data %>% 
+  filter(age < 80) %>% 
+  tabyl(last_amb_bp_cutoff_140_broad, T2D_code)
+
+data %>% 
+  filter(age < 80) %>% 
+  group_by(last_amb_bp_cutoff_140_broad, T2D_code) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+### SBP between 140 and 135
+
+#### CKD
+
+All narrow coding definition
+
+```{r bp140and135narrowCKD}
+
+data %>% 
+  filter(age < 80,
+         CKD_code == 1) %>% 
+  tabyl(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow)
+
+data %>% 
+  filter(age < 80,
+         CKD_code == 1) %>% 
+  group_by(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+#### CVD
+
+```{r bp140and135narrowCVD}
+
+data %>% 
+  filter(age < 80,
+         CVD_code == 1) %>% 
+  tabyl(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow)
+
+data %>% 
+  filter(age < 80,
+         CVD_code == 1) %>% 
+  group_by(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+#### T1D
+
+```{r bp140and135narrowT1D}
+
+data %>% 
+  filter(age < 80,
+         T1D_code == 1) %>% 
+  tabyl(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow)
+
+data %>% 
+  filter(age < 80,
+         T1D_code == 1) %>% 
+  group_by(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+#### T2D
+
+```{r bp140and135narrowT2D}
+
+data %>% 
+  filter(age < 80,
+         T2D_code == 1) %>% 
+  tabyl(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow)
+
+data %>% 
+  filter(age < 80,
+         T2D_code == 1) %>% 
+  group_by(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+## 80 and above
+
+### Descriptive Stats - SBP, Ambulatory SBC
+
+Summary stats 80 and over. Includes Last systolic blood pressure (SBP), ambulatory sbp (narrow definition), and ambulatory sbp (wide definition)
+
+```{r baseover80}
+
+data %>% 
+  filter(age >= 80) %>% 
+  select(last_systolic_bp_measure, last_ambulatory_systolic_bp_measure, last_ambulatory_systolic_bp_measure_narrow) %>% 
+  Hmisc::describe()
+
+```
+
+### SBP between 150 and 145 
+
+#### Broad coding defintion
+
+```{r SBPbetween150and14580plusbroad}
+
+data %>% 
+  filter(age >= 80) %>% 
+  tabyl(last_amb_bp_cutoff_150_broad, last_amb_bp_cutoff_145_broad)
+
+data %>% 
+  filter(age >= 80) %>% 
+  group_by(last_amb_bp_cutoff_150_broad, last_amb_bp_cutoff_145_broad) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+
+#### Narrow coding definition
+
+```{r SBPbetween150and14580plusnarrow}
+
+data %>% 
+  filter(age >= 80) %>% 
+  tabyl(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow)
+
+data %>% 
+  filter(age >= 80) %>% 
+  group_by(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+
+### SBP over 150 BP atratified by CVD, CKD and DM 
+
+#### Broad coding definition
+
+##### CKD
+
+0 - No CKD diag code
+1 - CKD diag code
+
+```{r bp140broadvsCKDover80}
+
+data %>% 
+  filter(age >= 80) %>% 
+  tabyl(last_amb_bp_cutoff_150_broad, CKD_code)
+
+data %>% 
+  filter(age >= 80) %>% 
+  group_by(last_amb_bp_cutoff_150_broad, CKD_code) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+##### CVD
+
+0 - No CVD diag code
+1 - CvD diag code
+
+```{r bp140broadvsCVDover80}
+
+data %>% 
+  filter(age >= 80) %>% 
+  tabyl(last_amb_bp_cutoff_150_broad, CVD_code)
+
+data %>% 
+  filter(age >= 80) %>% 
+  group_by(last_amb_bp_cutoff_150_broad, CVD_code) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+##### T1D
+
+0 - No T1D diag code
+1 - T1D diag code
+
+
+```{r bp140broadvsT1Dover80}
+
+data %>% 
+  filter(age >= 80) %>% 
+  tabyl(last_amb_bp_cutoff_150_broad, T1D_code)
+
+data %>% 
+  filter(age >= 80) %>% 
+  group_by(last_amb_bp_cutoff_150_broad, T1D_code) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+##### T2D
+
+0 - No T2D diag code
+1 - T2D diag code
+
+```{r bp140broadvsT2Dover80}
+
+data %>% 
+  filter(age >= 80) %>% 
+  tabyl(last_amb_bp_cutoff_150_broad, T2D_code)
+
+data %>% 
+  filter(age >= 80) %>% 
+  group_by(last_amb_bp_cutoff_150_broad, T2D_code) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+### SBP between 150 and 145 
+
+#### Narrow coding definition
+
+##### CKD
+
+```{r bp150and145narrowCKDover80}
+
+data %>% 
+  filter(age >= 80,
+         CKD_code == 1) %>% 
+  tabyl(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow)
+
+data %>% 
+  filter(age >= 80,
+         CKD_code == 1) %>% 
+  group_by(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+##### CVD only
+
+```{r bp150and145narrowCVDover80}
+
+data %>% 
+  filter(age >= 80,
+         CVD_code == 1) %>% 
+  tabyl(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow)
+
+data %>% 
+  filter(age >= 80,
+         CVD_code == 1) %>% 
+  group_by(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow) %>% 
+  summarise(n = n(), .groups = "keep")
+
+
+```
+
+##### T1D only
+
+```{r bp150and145narrowT1dDover80}
+
+data %>% 
+  filter(age >= 80,
+         T1D_code == 1) %>% 
+  tabyl(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow)
+
+data %>% 
+  filter(age >= 80,
+         T1D_code == 1) %>% 
+  group_by(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow) %>% 
+  summarise(n = n(), .groups = "keep")
+
+```
+
+##### T2D only
+
+```{r bp150and145narrowT2dDover80}
+
+data %>% 
+  filter(age >= 80,
+         T1D_code == 1) %>% 
+  tabyl(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow)
+
+data %>% 
+  filter(age >= 80,
+         T1D_code == 1) %>% 
+  group_by(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow) %>% 
+  summarise(n = n(), .groups = "keep")
