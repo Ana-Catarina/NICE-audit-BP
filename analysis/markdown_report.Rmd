@@ -105,10 +105,6 @@ data %>%
 
 data %>% 
   filter(age < 80) %>% 
-  tabyl(last_amb_bp_cutoff_135_broad, last_amb_bp_cutoff_140_broad)
-
-data %>% 
-  filter(age < 80) %>% 
   group_by(last_amb_bp_cutoff_135_broad, last_amb_bp_cutoff_140_broad) %>% 
   summarise(n = n(), .groups = "keep")
 
@@ -117,10 +113,6 @@ data %>%
 #### Narrow coding defintion
 
 ```{r freqtabsforbpsnarrow135and140}
-
-data %>% 
-  filter(age < 80) %>% 
-  tabyl(last_amb_bp_cutoff_135_narrow, last_amb_bp_cutoff_140_narrow)
 
 data %>% 
   filter(age < 80) %>% 
@@ -142,10 +134,6 @@ Broad coding definition only
 
 data %>% 
   filter(age < 80) %>% 
-  tabyl(last_amb_bp_cutoff_140_broad, CKD_code)
-
-data %>% 
-  filter(age < 80) %>% 
   group_by(last_amb_bp_cutoff_140_broad, CKD_code) %>% 
   summarise(n = n(), .groups = "keep")
 
@@ -157,10 +145,6 @@ data %>%
 1 - CvD diag code
 
 ```{r bp140broadvsCVD}
-
-data %>% 
-  filter(age < 80) %>% 
-  tabyl(last_amb_bp_cutoff_140_broad, CVD_code)
 
 data %>% 
   filter(age < 80) %>% 
@@ -179,10 +163,6 @@ data %>%
 
 data %>% 
   filter(age < 80) %>% 
-  tabyl(last_amb_bp_cutoff_140_broad, T1D_code)
-
-data %>% 
-  filter(age < 80) %>% 
   group_by(last_amb_bp_cutoff_140_broad, T1D_code) %>% 
   summarise(n = n(), .groups = "keep")
 
@@ -194,10 +174,6 @@ data %>%
 1 - T2D diag code
 
 ```{r bp140broadvsT2D}
-
-data %>% 
-  filter(age < 80) %>% 
-  tabyl(last_amb_bp_cutoff_140_broad, T2D_code)
 
 data %>% 
   filter(age < 80) %>% 
@@ -217,11 +193,6 @@ All narrow coding definition
 data %>% 
   filter(age < 80,
          CKD_code == 1) %>% 
-  tabyl(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow)
-
-data %>% 
-  filter(age < 80,
-         CKD_code == 1) %>% 
   group_by(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow) %>% 
   summarise(n = n(), .groups = "keep")
 
@@ -230,11 +201,6 @@ data %>%
 #### CVD
 
 ```{r bp140and135narrowCVD}
-
-data %>% 
-  filter(age < 80,
-         CVD_code == 1) %>% 
-  tabyl(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow)
 
 data %>% 
   filter(age < 80,
@@ -251,11 +217,6 @@ data %>%
 data %>% 
   filter(age < 80,
          T1D_code == 1) %>% 
-  tabyl(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow)
-
-data %>% 
-  filter(age < 80,
-         T1D_code == 1) %>% 
   group_by(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow) %>% 
   summarise(n = n(), .groups = "keep")
 
@@ -264,11 +225,6 @@ data %>%
 #### T2D
 
 ```{r bp140and135narrowT2D}
-
-data %>% 
-  filter(age < 80,
-         T2D_code == 1) %>% 
-  tabyl(last_amb_bp_cutoff_140_narrow, last_amb_bp_cutoff_135_narrow)
 
 data %>% 
   filter(age < 80,
@@ -288,10 +244,6 @@ data %>%
 
 data %>% 
   filter(age >= 80) %>% 
-  tabyl(last_amb_bp_cutoff_150_broad, last_amb_bp_cutoff_145_broad)
-
-data %>% 
-  filter(age >= 80) %>% 
   group_by(last_amb_bp_cutoff_150_broad, last_amb_bp_cutoff_145_broad) %>% 
   summarise(n = n(), .groups = "keep")
 
@@ -301,10 +253,6 @@ data %>%
 #### Narrow coding definition
 
 ```{r SBPbetween150and14580plusnarrow}
-
-data %>% 
-  filter(age >= 80) %>% 
-  tabyl(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow)
 
 data %>% 
   filter(age >= 80) %>% 
@@ -327,10 +275,6 @@ data %>%
 
 data %>% 
   filter(age >= 80) %>% 
-  tabyl(last_amb_bp_cutoff_150_broad, CKD_code)
-
-data %>% 
-  filter(age >= 80) %>% 
   group_by(last_amb_bp_cutoff_150_broad, CKD_code) %>% 
   summarise(n = n(), .groups = "keep")
 
@@ -342,10 +286,6 @@ data %>%
 1 - CvD diag code
 
 ```{r bp140broadvsCVDover80}
-
-data %>% 
-  filter(age >= 80) %>% 
-  tabyl(last_amb_bp_cutoff_150_broad, CVD_code)
 
 data %>% 
   filter(age >= 80) %>% 
@@ -364,10 +304,6 @@ data %>%
 
 data %>% 
   filter(age >= 80) %>% 
-  tabyl(last_amb_bp_cutoff_150_broad, T1D_code)
-
-data %>% 
-  filter(age >= 80) %>% 
   group_by(last_amb_bp_cutoff_150_broad, T1D_code) %>% 
   summarise(n = n(), .groups = "keep")
 
@@ -379,10 +315,6 @@ data %>%
 1 - T2D diag code
 
 ```{r bp140broadvsT2Dover80}
-
-data %>% 
-  filter(age >= 80) %>% 
-  tabyl(last_amb_bp_cutoff_150_broad, T2D_code)
 
 data %>% 
   filter(age >= 80) %>% 
@@ -402,11 +334,6 @@ data %>%
 data %>% 
   filter(age >= 80,
          CKD_code == 1) %>% 
-  tabyl(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow)
-
-data %>% 
-  filter(age >= 80,
-         CKD_code == 1) %>% 
   group_by(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow) %>% 
   summarise(n = n(), .groups = "keep")
 
@@ -415,11 +342,6 @@ data %>%
 ##### CVD only
 
 ```{r bp150and145narrowCVDover80}
-
-data %>% 
-  filter(age >= 80,
-         CVD_code == 1) %>% 
-  tabyl(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow)
 
 data %>% 
   filter(age >= 80,
@@ -437,11 +359,6 @@ data %>%
 data %>% 
   filter(age >= 80,
          T1D_code == 1) %>% 
-  tabyl(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow)
-
-data %>% 
-  filter(age >= 80,
-         T1D_code == 1) %>% 
   group_by(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow) %>% 
   summarise(n = n(), .groups = "keep")
 
@@ -450,11 +367,6 @@ data %>%
 ##### T2D only
 
 ```{r bp150and145narrowT2dDover80}
-
-data %>% 
-  filter(age >= 80,
-         T1D_code == 1) %>% 
-  tabyl(last_amb_bp_cutoff_150_narrow, last_amb_bp_cutoff_145_narrow)
 
 data %>% 
   filter(age >= 80,
