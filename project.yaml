@@ -50,4 +50,5 @@ actions:
     - generate_study_population
     outputs:
       moderately_sensitive:
-        csv: output/report_*.csv
+        csvs: output/*.csv
+        
