@@ -43,3 +43,11 @@ actions:
       moderately_sensitive:
         reports: output/cohort_reports_outputs/descriptives_input.html
         reports_charts: output/cohort_reports_outputs/*.png
+        
+  report_data:
+    run: r:latest analysis/report.R
+    needs:
+    - generate_study_population
+    outputs:
+      moderately_sensitive:
+        csv: output/report_*.csv
