@@ -23,6 +23,10 @@ actions:
     needs: [generate_study_population]
     config:
       variable_types:
+          hypertension: binary
+          hypertension_date: date
+          hypertension_resolved: binary
+          hypertension_resolved_date: date
           last_systolic_bp_date: date
           last_ambulatory_systolic_bp_date: date
           last_ambulatory_systolic_bp_date_narrow: date
@@ -33,8 +37,6 @@ actions:
           T1D_code: binary
           T2D_code: binary
           Overall_diab_code: binary
-          msoa_geography: categorical
-          stp_geography: categorical
           last_systolic_bp_measure: float
           last_ambulatory_systolic_bp_measure: float
           last_ambulatory_systolic_bp_measure_narrow: float
@@ -44,13 +46,4 @@ actions:
         reports: output/cohort_reports_outputs/descriptives_input.html
         reports_charts: output/cohort_reports_outputs/*.png
         
-  report_data:
-    run: r:latest analysis/report.R
-    needs:
-    - generate_study_population
-    outputs:
-      moderately_sensitive:
-        csvs: output/csv_*.csv
-        
-
         

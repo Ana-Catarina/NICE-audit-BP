@@ -140,9 +140,9 @@ summary_table(data, last_amb_bp_cutoff_135_narrow)
 0 - No diag code
 1 - Diag code
 
-```{r ckd}
+```{r cvd}
 
-summary_table(data, T1D_code)
+summary_table(data, CVD_code)
 
 ```
 
