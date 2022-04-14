@@ -53,6 +53,12 @@
       "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/diab/6ca1e005/",
       "downloaded_at": "2022-02-14 12:29:28.943955Z",
       "sha": "e7065f7285300aa9e276fc8dc80a5290bb01a26e"
+    },
+    "user-rob_w-hypertension_resolved.csv": {
+      "id": "user/rob_w/hypertension_resolved/34447f8d",
+      "url": "https://codelists.opensafely.org/codelist/user/rob_w/hypertension_resolved/34447f8d/",
+      "downloaded_at": "2022-04-14 13:59:18.564113Z",
+      "sha": "8f94d85f3bb7977e96d742a6b0a48551e0f674a2"
     }
   }
 }

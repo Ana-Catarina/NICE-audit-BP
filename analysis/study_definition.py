@@ -11,6 +11,7 @@ from codelists import *
 
 study = StudyDefinition(
     
+    index_date = '2021-01-01',
     
     default_expectations={
         "date": {"earliest": "1900-01-01", "latest": "today"},
@@ -18,16 +19,36 @@ study = StudyDefinition(
         "incidence": 0.5,
     },
     
+    #hypertension diags (Milan's boolean implementation)
+    hypertension = patients.with_these_clinical_events(
+        on_or_before="last_day_of_year(index_date)",
+        codelist=hypertension_diag_code,
+        returning="binary_flag",
+        find_last_match_in_period=True,
+        include_date_of_match=True,
+        date_format="YYYY-MM-DD",
+    ),    
+    
+    hypertension_resolved=patients.with_these_clinical_events(
+        on_or_before="last_day_of_year(index_date)",
+        codelist=hypertension_resolved_code,
+        returning="binary_flag",
+        find_last_match_in_period=True,
+        include_date_of_match=True,
+        date_format="YYYY-MM-DD",
+    ),
+    
+    
+    
     population = patients.satisfying("""
-                                     registered AND (pat_age >= 18) AND hypertension
+                                     registered AND (pat_age >= 18) AND (hypertension AND (NOT hypertension_resolved)) OR (hypertension_resolved_date <= hypertension_date)
                                      """,
-                                     registered = patients.registered_as_of("2021-03-31"),
-                                     pat_age = patients.age_as_of("2021-03-31"),
-                                     hypertension = patients.with_these_clinical_events(hypertension_diag_code, on_or_before = "2021-03-31")
+                                     registered = patients.registered_as_of("index_date"),
+                                     pat_age = patients.age_as_of("last_day_of_year(index_date)"),
                                      ),
-
+                                     
     age=patients.age_as_of(
-        "2022-01-01",
+        "last_day_of_year(index_date)",
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},
@@ -42,48 +63,38 @@ study = StudyDefinition(
     ),
     
     CKD_code = patients.with_these_clinical_events(CKD_codes,
-                                                   on_or_before = "2021-03-31",
+                                                   on_or_before = "last_day_of_year(index_date)",
                                                    returning = "binary_flag",
                                                    return_expectations = {"incidence": 0.1}
                                                    ),
     
     CVD_code = patients.with_these_clinical_events(CVD_codes,
-                                                   on_or_before = "2021-03-31",
+                                                   on_or_before = "last_day_of_year(index_date)",
                                                    returning = "binary_flag",
                                                    return_expectations = {"incidence": 0.2}
                                                    ),
                                                    
     T1D_code = patients.with_these_clinical_events(T1D_codes,
-                                                   on_or_before = "2021-03-31",
+                                                   on_or_before = "last_day_of_year(index_date)",
                                                    returning = "binary_flag",
                                                    return_expectations = {"incidence": 0.1}
                                                    ),
                                                    
     T2D_code = patients.with_these_clinical_events(T2D_codes,
-                                                   on_or_before = "2021-03-31",
+                                                   on_or_before = "last_day_of_year(index_date)",
                                                    returning = "binary_flag",
                                                    return_expectations = {"incidence": 0.2}
                                                    ),
                                                    
     Overall_diab_code = patients.with_these_clinical_events(Overall_diab_codes,
-                                                   on_or_before = "2021-03-31",
+                                                   on_or_before = "last_day_of_year(index_date)",
                                                    returning = "binary_flag",
                                                    return_expectations = {"incidence": 0.2}
                                                    ),                                               
     
-
-    msoa_geography = patients.registered_practice_as_of("2021-03-31",
-                                                        returning = "msoa",
-                                                        return_expectations = {"category": {"ratios": {"E01545789": 0.3, "E15847895": 0.4, "E18523465": 0.3}}, "incidence": 0.95}),
-
-    stp_geography = patients.registered_practice_as_of("2021-03-31",
-                                                        returning = "stp_code",
-                                                        return_expectations = {"category": {"ratios": {"QK1": 0.3, "QUY": 0.4, "E18523465": 0.3}}, "incidence": 0.95}),
-                                            
-                                                        
-    
     last_systolic_bp_measure = patients.with_these_clinical_events(all_systolic_codes,
-                                                                    between = ["2020-04-01", "2021-03-31"],
+                                                                    between = ["first_day_of_year(index_date)",
+                                                                               "last_day_of_year(index_date)"],
                                                                     returning = "numeric_value",
                                                                     find_last_match_in_period = "TRUE",
                                                                     return_expectations = {"float" : {"distribution": "normal",
@@ -93,7 +104,8 @@ study = StudyDefinition(
                                                                     ),
                                                                     
     last_systolic_bp_date = patients.with_these_clinical_events(all_systolic_codes,
-                                                                    between = ["2020-04-01", "2021-03-31"],
+                                                                    between = ["first_day_of_year(index_date)",
+                                                                               "last_day_of_year(index_date)"],
                                                                     returning = "date",
                                                                     date_format = "YYYY-MM-DD",
                                                                     find_last_match_in_period = "TRUE",
@@ -104,7 +116,8 @@ study = StudyDefinition(
                                                                     ),
                                                                 
     last_ambulatory_systolic_bp_measure = patients.with_these_clinical_events(ambulatory_systolic_codes,
-                                                                    between = ["2020-04-01", "2021-03-31"],
+                                                                    between = ["first_day_of_year(index_date)",
+                                                                               "last_day_of_year(index_date)"],
                                                                     returning = "numeric_value",
                                                                     find_last_match_in_period = "TRUE",
                                                                     return_expectations = {"float" : {"distribution": "normal",
@@ -114,7 +127,8 @@ study = StudyDefinition(
                                                                     ),
                                                                     
     last_ambulatory_systolic_bp_date = patients.with_these_clinical_events(ambulatory_systolic_codes,
-                                                                    between = ["2020-04-01", "2021-03-31"],
+                                                                    between = ["first_day_of_year(index_date)",
+                                                                               "last_day_of_year(index_date)"],
                                                                     returning = "date",
                                                                     date_format = "YYYY-MM-DD",
                                                                     find_last_match_in_period = "TRUE",
@@ -125,7 +139,8 @@ study = StudyDefinition(
                                                                     ),    
                                                                     
     last_ambulatory_systolic_bp_measure_narrow = patients.with_these_clinical_events(ambulatory_systolic_codes_narrow,
-                                                                    between = ["2020-04-01", "2021-03-31"],
+                                                                    between = ["first_day_of_year(index_date)",
+                                                                               "last_day_of_year(index_date)"],
                                                                     returning = "numeric_value",
                                                                     find_last_match_in_period = "TRUE",
                                                                     return_expectations = {"float" : {"distribution": "normal",
@@ -135,7 +150,8 @@ study = StudyDefinition(
                                                                     ),
                                                                     
     last_ambulatory_systolic_bp_date_narrow = patients.with_these_clinical_events(ambulatory_systolic_codes_narrow,
-                                                                    between = ["2020-04-01", "2021-03-31"],
+                                                                    between = ["first_day_of_year(index_date)",
+                                                                               "last_day_of_year(index_date)"],
                                                                     returning = "date",
                                                                     date_format = "YYYY-MM-DD",
                                                                     find_last_match_in_period = "TRUE",
