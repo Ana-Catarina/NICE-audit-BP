@@ -62,6 +62,8 @@ data <- df_input %>%
   create_threshold(last_ambulatory_systolic_bp_measure, last_amb_bp_cutoff_135_broad, 135) %>% 
   create_threshold(last_ambulatory_systolic_bp_measure_narrow, last_amb_bp_cutoff_135_narrow, 135) 
 
+rm(df_input)
+
 ```
 
 ## Counts (N)
@@ -183,7 +185,7 @@ summary_table(data, T2D_code)
 ```{r under80allsource140}
 
 data %>% 
-  filter(age < 80) %>% 
+  filter(age < 80) %>%
   summary_table(bp_over_140_all_source)
 
 ```
@@ -222,6 +224,19 @@ data %>%
 
 ```
 
+## Count of number of patients where age<80 and bp is under 140 (all source) but over 135 (ambulatory)
+
+```{r overlap2}
+
+data %>% 
+  filter(age < 80,
+         bp_over_140_all_source == 'under_140',
+         last_amb_bp_cutoff_135_broad == 'over_135') %>% 
+  summary_table(bp_over_140_all_source, last_amb_bp_cutoff_135_broad)
+
+```
+
+
 ## Adults \> 80
 
 • How many adults with hypertension aged 80 and over with a diagnosis of hypertension have a clinic blood pressure below 150/90 mmHg measured in the preceding 12 months.
@@ -251,4 +266,24 @@ data %>%
 
 ```
 
-\`\`\`
+## Overlap 150 all source and 145 ambulatory (over 80)
+
+```{r overlapclinicamb}
+
+data %>% 
+  filter(age >= 80) %>% 
+  summary_table(bp_over_150_all_source, last_amb_bp_cutoff_145_broad)
+
+```
+
+## Count of number of patients where age 80+ and bp is under 150 (all source) but over 135 (ambulatory)
+
+```{r overlap2ober80}
+
+data %>% 
+  filter(age >= 80,
+         bp_over_150_all_source == 'under_150',
+         last_amb_bp_cutoff_145_broad == 'over_145') %>% 
+  summary_table(bp_over_150_all_source, last_amb_bp_cutoff_145_broad)
+
+```
