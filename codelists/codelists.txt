@@ -1,10 +1,10 @@
 opensafely/systolic-blood-pressure-qof/3572b5fb
 user/rob_w/ambulatory_systolic_bp_qof/223ac55c
 user/rob_w/ambulatory_systolic_bp_narrow/701bdef1
-opensafely/hypertension-snomed/024ab1b0
 primis-covid19-vacc-uptake/ckd15/37d039a5
 primis-covid19-vacc-uptake/chd_cov/76a62c4e
 opensafely/type-1-diabetes/61e9b227
 opensafely/type-2-diabetes/48da3ef2
 primis-covid19-vacc-uptake/diab/6ca1e005
-user/rob_w/hypertension_resolved/34447f8d
+nhsd-primary-care-domain-refsets/hyp_cod/1b89bd3d
+nhsd-primary-care-domain-refsets/hypres_cod/247219ab

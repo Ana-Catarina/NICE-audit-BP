@@ -41,7 +41,10 @@ study = StudyDefinition(
     
     
     population = patients.satisfying("""
-                                     registered AND (pat_age >= 18) AND (hypertension AND (NOT hypertension_resolved)) OR (hypertension_resolved_date <= hypertension_date)
+                                     registered AND 
+                                     (pat_age >= 18) AND
+                                     ((hypertension AND (NOT hypertension_resolved)) OR
+                                     (hypertension_resolved_date <= hypertension_date))
                                      """,
                                      registered = patients.registered_as_of("index_date"),
                                      pat_age = patients.age_as_of("last_day_of_year(index_date)"),

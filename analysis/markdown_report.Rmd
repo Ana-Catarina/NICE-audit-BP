@@ -74,14 +74,14 @@ summary_table(data, age_cutoff)
 
 ```
 
-
-### All-source measurements 
+### All-source measurements
 
 ```{r allbp150}
 
 summary_table(data, last_amb_bp_cutoff_140_broad)
 
 ```
+
 ```{r allbp140}
 
 summary_table(data, bp_over_140_all_source)
@@ -107,6 +107,7 @@ summary_table(data, last_amb_bp_cutoff_150_broad)
 summary_table(data, last_amb_bp_cutoff_140_broad)
 
 ```
+
 ```{r ambbp135}
 
 summary_table(data, last_amb_bp_cutoff_135_broad)
@@ -137,8 +138,7 @@ summary_table(data, last_amb_bp_cutoff_135_narrow)
 
 #### CVD
 
-0 - No diag code
-1 - Diag code
+0 - No diag code 1 - Diag code
 
 ```{r cvd}
 
@@ -148,8 +148,7 @@ summary_table(data, CVD_code)
 
 #### CKD
 
-0 - No diag code
-1 - diag code
+0 - No diag code 1 - diag code
 
 ```{r ckd}
 
@@ -159,8 +158,7 @@ summary_table(data, CKD_code)
 
 #### T1D
 
-0 - No diag code
-1 - Diag code
+0 - No diag code 1 - Diag code
 
 ```{r t1d}
 
@@ -170,8 +168,7 @@ summary_table(data, T1D_code)
 
 #### T2D
 
-0 - No diag code
-1 - Diag code
+0 - No diag code 1 - Diag code
 
 ```{r t2d}
 
@@ -179,9 +176,9 @@ summary_table(data, T2D_code)
 
 ```
 
-## Adults <80 all source BPM measure 140 systolic or less
+## Adults \<80 all source BPM measure 140 systolic or less
 
-•	How many adults with hypertension aged under 80 with a diagnosis of hypertension have a clinic blood pressure below 140/90 mmHg measured in the preceding 12 months
+• How many adults with hypertension aged under 80 with a diagnosis of hypertension have a clinic blood pressure below 140/90 mmHg measured in the preceding 12 months
 
 ```{r under80allsource140}
 
@@ -191,9 +188,9 @@ data %>%
 
 ```
 
-## Adults <80 home and ambulatory BPM measure 135 systolic or less
+## Adults \<80 home and ambulatory BPM measure 135 systolic or less
 
-•	How many adults with hypertension aged under 80 with a diagnosis of hypertension have a blood pressure measured using ABPM or HBPM below 135/85 mmHg in the preceding 12 months?
+• How many adults with hypertension aged under 80 with a diagnosis of hypertension have a blood pressure measured using ABPM or HBPM below 135/85 mmHg in the preceding 12 months?
 
 ### Broad defn
 
@@ -225,9 +222,9 @@ data %>%
 
 ```
 
-## Adults > 80
+## Adults \> 80
 
-•	How many adults with hypertension aged 80 and over with a diagnosis of hypertension have a clinic blood pressure below 150/90 mmHg measured in the preceding 12 months.
+• How many adults with hypertension aged 80 and over with a diagnosis of hypertension have a clinic blood pressure below 150/90 mmHg measured in the preceding 12 months.
 
 ```{r over80all}
 
@@ -236,7 +233,8 @@ data %>%
   summary_table( bp_over_150_all_source)
 
 ```
-•	How many adults with hypertension aged 80 and over with a diagnosis of hypertension have a blood pressure measured using ABPM or HBPM below 145/85 mmHg measured in the preceding 12 months.
+
+• How many adults with hypertension aged 80 and over with a diagnosis of hypertension have a blood pressure measured using ABPM or HBPM below 145/85 mmHg measured in the preceding 12 months.
 
 ```{r over80ambwide}
 
@@ -244,7 +242,6 @@ data %>%
   filter(age >= 80) %>% 
   summary_table(last_amb_bp_cutoff_145_broad)
 ```
-
 
 ```{r over80ambnarrow}
 
@@ -254,4 +251,4 @@ data %>%
 
 ```
 
-```
+\`\`\`
