@@ -68,6 +68,14 @@ rm(df_input)
 
 ## Counts (N)
 
+### Total N
+
+```{r totaln}
+
+data %>% nrow()
+
+```
+
 ### Ages
 
 ```{r agesplit}
