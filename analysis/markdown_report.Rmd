@@ -216,7 +216,7 @@ data %>%
 
 ## Overlap 140 all source and 135 ambulatory (under 80)
 
-```{r overlapclinicamb}
+```{r overlapclinicambunder80}
 
 data %>% 
   filter(age < 80) %>% 
@@ -256,6 +256,7 @@ data %>%
 data %>% 
   filter(age >= 80) %>% 
   summary_table(last_amb_bp_cutoff_145_broad)
+
 ```
 
 ```{r over80ambnarrow}
@@ -268,7 +269,7 @@ data %>%
 
 ## Overlap 150 all source and 145 ambulatory (over 80)
 
-```{r overlapclinicamb}
+```{r overlapclinicambover80}
 
 data %>% 
   filter(age >= 80) %>% 
