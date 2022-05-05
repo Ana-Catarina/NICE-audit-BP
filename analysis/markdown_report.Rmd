@@ -80,7 +80,9 @@ data %>% nrow()
 
 ```{r agesplit}
 
-summary_table(data, age_cutoff)
+data %>% mutate("age_group" = case_when(age >= 80 ~ "80 and over",
+                                               age < 80 ~ "under 80",
+                                               TRUE ~ "not recorded")) %>% count(age_group)
 
 ```
 
@@ -285,7 +287,7 @@ data %>%
 
 ```
 
-## Count of number of patients where age 80+ and bp is under 150 (all source) but over 135 (ambulatory)
+## Count of number of patients where age 80+ and bp is under 150 (all source) but over 145 (ambulatory)
 
 ```{r overlap2ober80}
 
